@@ -1,90 +1,68 @@
-# Vehicle Emission Data Analysis
+# README for Vehicle Emission Data Analysis
 
-This repository contains Python scripts for analyzing a vehicle emissions dataset, focusing on various pollutants such as CO2, NOx, PM2.5, VOC, and SO2 emissions across different vehicle types, with a comparison between electric and non-electric vehicles. The analysis includes visualizations to explore emissions distribution and correlation analysis.
+## Overview
+This repository contains Python code for analyzing a dataset on vehicle emissions. The analysis focuses on comparing CO2 emissions between different vehicle types, particularly between electric and non-electric vehicles. Additionally, the dataset's correlation matrix is explored, and the emissions of various pollutants such as NOx, PM2.5, VOC, and SO2 are visualized by vehicle type.
+
+## Dataset
+The dataset used for the analysis is named `vehicle_emission_dataset.csv`, and it contains data on various vehicle types, fuel types, and their corresponding emissions, including:
+- CO2 Emissions (g/km)
+- NOx Emissions (g/km)
+- PM2.5 Emissions (g/km)
+- VOC Emissions (g/km)
+- SO2 Emissions (g/km)
 
 ## Files
-- **vehicle_emission_dataset.csv**: The dataset used for the analysis.
-- **analysis_script.py**: Python script performing the data analysis and generating visualizations.
+- `vehicle_emission_analysis.py`: Contains the main analysis script, which:
+  - Loads the dataset
+  - Removes duplicates
+  - Visualizes CO2 emissions by vehicle type
+  - Compares CO2 emissions between electric and non-electric vehicles
+  - Analyzes correlations between emissions
+  - Visualizes pollutant emissions by vehicle type
+  - Summarizes the statistical properties of the emission data
 
-## Prerequisites
-Ensure you have the following Python libraries installed:
+## Requirements
+To run the code, you will need the following Python libraries:
+- `pandas`
+- `matplotlib`
+- `seaborn`
 
+You can install these using:
 ```bash
 pip install pandas matplotlib seaborn
 ```
 
-## Analysis Steps
+## Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/suhasgr02/vehicle-emission-analysis.git
+   ```
+2. Place the `vehicle_emission_dataset.csv` file in the appropriate directory.
+3. Run the Python script:
+   ```bash
+   python vehicle_emission_analysis.py
+   ```
 
-### 1. Load the Dataset
-The dataset is loaded from a CSV file using `pandas`:
+## Key Steps in Analysis
+1. **Loading and Cleaning the Data**: The dataset is loaded using `pandas`, and duplicates are identified and removed.
+2. **CO2 Emissions by Vehicle Type**: The distribution of CO2 emissions for various vehicle types is visualized using a boxplot.
+3. **Electric vs. Non-Electric Vehicles**: CO2 emissions of electric and non-electric vehicles are compared using KDE plots.
+4. **Correlation Analysis**: A heatmap visualizing the correlation between various emission types (CO2, NOx, PM2.5, VOC, SO2) is generated.
+5. **Pollutant Emissions by Vehicle Type**: Bar plots show the total emissions for each pollutant (NOx, PM2.5, VOC, SO2) by vehicle type.
+6. **Summary Statistics**: Summary statistics (mean, median, standard deviation, etc.) for the emissions are calculated and printed.
 
-```python
-data = pd.read_csv('vehicle_emission_dataset.csv')
-```
+## Interpretation of Results
+1. **Duplicate Removal**: Any duplicate entries in the dataset are dropped, ensuring the accuracy of the analysis.
+   
+2. **CO2 Emissions by Vehicle Type**: The boxplot reveals how CO2 emissions differ across vehicle types. This highlights which vehicles tend to emit more CO2 and whether there are any outliers in the data.
 
-### 2. Remove Duplicates
-We check for duplicate rows in the dataset and remove them:
+3. **Electric vs. Non-Electric Vehicle Emissions**: The comparison using KDE plots shows a stark difference in CO2 emissions between electric and non-electric vehicles. As expected, electric vehicles have near-zero CO2 emissions, while non-electric vehicles exhibit a wide range of CO2 outputs.
 
-```python
-duplicates = data.duplicated().sum()
-data = data.drop_duplicates()
-```
+4. **Correlation Matrix**: The heatmap shows how different emissions are correlated with each other. For example, a strong correlation between NOx and CO2 emissions may suggest that vehicles emitting more CO2 also tend to release more NOx.
 
-### 3. Visualize CO2 Emissions by Vehicle Type
-We create a boxplot to show the distribution of CO2 emissions for different vehicle types:
+5. **Pollutant Emissions by Vehicle Type**: The bar plots show the total emissions for various pollutants by vehicle type. This visualization allows us to see which vehicle types are the largest contributors to pollution in terms of each specific pollutant.
 
-```python
-sns.boxplot(x='Vehicle Type', y='CO2 Emissions', data=data)
-plt.title('Distribution of CO2 Emissions by Vehicle Type')
-plt.show()
-```
+6. **Summary Statistics**: Descriptive statistics help in understanding the central tendencies and variability in the emissions data, providing insights into the overall pollution levels.
 
-### 4. Compare Emissions: Electric vs Non-Electric Vehicles
-We compare CO2 emissions between electric and non-electric vehicles using KDE plots:
-
-```python
-sns.kdeplot(ev_data['CO2 Emissions'], label='Electric Vehicles', fill=True)
-sns.kdeplot(non_ev_data['CO2 Emissions'], label='Non-Electric Vehicles', fill=True)
-plt.title('Comparison of CO2 Emissions: Electric vs Non-Electric Vehicles')
-plt.show()
-```
-
-### 5. Correlation Analysis
-We calculate and visualize the correlation between different emission types:
-
-```python
-correlation_matrix = numeric_columns.corr()
-sns.heatmap(correlation_matrix, annot=True, fmt='.2f', cmap='coolwarm', square=True)
-plt.title('Correlation Matrix of Vehicle Emissions Data')
-plt.show()
-```
-
-### 6. Aggregate Emissions by Vehicle Type
-We calculate the total emissions for each pollutant by vehicle type and display them in a series of bar plots:
-
-```python
-emissions_by_vehicle = data.groupby('Vehicle Type')[['CO2 Emissions', 'NOx Emissions', 'PM2.5 Emissions', 'VOC Emissions', 'SO2 Emissions']].sum()
-sns.barplot(x='Vehicle Type', y='CO2 Emissions', data=emissions_by_vehicle)
-```
-
-### 7. Summary Statistics
-We generate summary statistics for the emissions data:
-
-```python
-summary_statistics = data[['CO2 Emissions', 'NOx Emissions', 'PM2.5 Emissions', 'VOC Emissions', 'SO2 Emissions']].describe()
-print(summary_statistics)
-```
-
-## Results
-
-This analysis helps in understanding the emission patterns from different vehicle types, providing insights into the impact of electric vehicles on air quality. Detailed visualizations and statistical summaries are generated to support the findings.
-
-## Contributing
-
-Feel free to contribute by:
-- Improving the data analysis
-- Adding more visualizations
-- Extending the dataset for a broader scope
-
-## License
-This project is open-source under the MIT License.
+## Conclusion
+This analysis provides a detailed comparison of emissions across vehicle types, with a particular focus on the impact of electric vehicles in reducing CO2 emissions. The correlation analysis and pollutant visualizations offer further insight into the relationships between different emissions and how they vary by vehicle type.
